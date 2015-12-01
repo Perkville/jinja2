@@ -11,8 +11,8 @@
 import re
 from collections import Mapping
 from jinja2.runtime import Undefined
-from jinja2._compat import text_type, string_types
-
+from jinja2._compat import text_type, string_types, integer_types
+import decimal
 
 number_re = re.compile(r'^-?\d+(\.\d+)?$')
 regex_type = type(number_re)
@@ -88,7 +88,7 @@ def test_mapping(value):
 
 def test_number(value):
     """Return true if the variable is a number."""
-    return isinstance(value, (int, float, complex))
+    return isinstance(value, integer_types + (float, complex, decimal.Decimal))
 
 
 def test_sequence(value):
@@ -119,6 +119,8 @@ def test_equalto(value, other):
     .. sourcecode:: jinja
 
         {{ users|selectattr("email", "equalto", "foo@bar.invalid") }}
+
+    .. versionadded:: 2.8
     """
     return value == other
 

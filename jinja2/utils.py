@@ -150,7 +150,7 @@ def open_if_exists(filename, mode='rb'):
     try:
         return open(filename, mode)
     except IOError as e:
-        if e.errno not in (errno.ENOENT, errno.EISDIR):
+        if e.errno not in (errno.ENOENT, errno.EISDIR, errno.EINVAL):
             raise
 
 
@@ -235,7 +235,7 @@ def urlize(text, trim_url_limit=None, nofollow=False, target=None):
 
 
 def generate_lorem_ipsum(n=5, html=True, min=20, max=100):
-    """Generate some lorem impsum for the template."""
+    """Generate some lorem ipsum for the template."""
     from jinja2.constants import LOREM_IPSUM_WORDS
     from random import choice, randrange
     words = LOREM_IPSUM_WORDS.split()
@@ -283,7 +283,7 @@ def generate_lorem_ipsum(n=5, html=True, min=20, max=100):
     return Markup(u'\n'.join(u'<p>%s</p>' % escape(x) for x in result))
 
 
-def unicode_urlencode(obj, charset='utf-8'):
+def unicode_urlencode(obj, charset='utf-8', for_qs=False):
     """URL escapes a single bytestring or unicode string with the
     given charset if applicable to URL safe quoting under all rules
     that need to be considered under all supported Python versions.
@@ -295,7 +295,11 @@ def unicode_urlencode(obj, charset='utf-8'):
         obj = text_type(obj)
     if isinstance(obj, text_type):
         obj = obj.encode(charset)
-    return text_type(url_quote(obj))
+    safe = not for_qs and b'/' or b''
+    rv = text_type(url_quote(obj, safe))
+    if for_qs:
+        rv = rv.replace('%20', '+')
+    return rv
 
 
 class LRUCache(object):

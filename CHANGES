@@ -1,9 +1,16 @@
 Jinja2 Changelog
 ================
 
+Version 2.8.1
+-------------
+
+(unreleased bugfix release)
+
+- Fixed the `for_qs` flag for `urlencode`.
+
 Version 2.8
 -----------
-(codename Translation, release date to be decided)
+(codename Replacement, released on July 26th 2015)
 
 - Added `target` parameter to urlize function.
 - Added support for `followsymlinks` to the file system loader.
@@ -20,6 +27,20 @@ Version 2.8
   reloaded now.
 - Implemented a block ``set`` tag.
 - Default cache size was incrased to 400 from a low 50.
+- Fixed ``is number`` test to accept long integers in all Python versions.
+- Changed ``is number`` to accept Decimal as a number.
+- Added a check for default arguments followed by non-default arguments. This
+  change makes ``{% macro m(x, y=1, z) %}...{% endmacro %}`` a syntax error. The
+  previous behavior for this code was broken anyway (resulting in the default
+  value being applied to `y`).
+- Add ability to use custom subclasses of ``jinja2.compiler.CodeGenerator`` and
+  ``jinja2.runtime.Context`` by adding two new attributes to the environment
+  (`code_generator_class` and `context_class`) (pull request ``#404``).
+- added support for context/environment/evalctx decorator functions on
+  the finalize callback of the environment.
+- escape query strings for urlencode properly.  Previously slashes were not
+  escaped in that place.
+- Add 'base' parameter to 'int' filter.
 
 Version 2.7.3
 -------------

@@ -63,7 +63,7 @@ child template::
     {% set active_page = "index" %}
 
 The layout template can then access `active_page`.  Additionally it makes
-sense to defined a default for that variable::
+sense to define a default for that variable::
 
     {% set navigation_bar = [
         ('/', 'index', 'Index'),
@@ -93,7 +93,7 @@ desired to have access to an outer loop it's possible to alias it::
       <tr>
       {% set rowloop = loop %}
       {% for cell in row %}
-        <td id="cell-{{ rowloop.index }}-{{ loop.index }}>{{ cell }}</td>
+        <td id="cell-{{ rowloop.index }}-{{ loop.index }}">{{ cell }}</td>
       {% endfor %}
       </tr>
     {% endfor %}

@@ -40,7 +40,7 @@ from setuptools import setup
 
 setup(
     name='Jinja2',
-    version='2.8-dev',
+    version='2.9.dev',
     url='http://jinja.pocoo.org/',
     license='BSD',
     author='Armin Ronacher',
@@ -57,15 +57,18 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Text Processing :: Markup :: HTML'
     ],
-    packages=['jinja2', 'jinja2.testsuite', 'jinja2.testsuite.res'],
+    packages=['jinja2'],
     install_requires=['MarkupSafe'],
     extras_require={'i18n': ['Babel>=0.8']},
-    test_suite='jinja2.testsuite.suite',
     include_package_data=True,
     entry_points="""
     [babel.extractors]

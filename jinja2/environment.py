@@ -21,8 +21,8 @@ from jinja2.lexer import get_lexer, TokenStream
 from jinja2.parser import Parser
 from jinja2.nodes import EvalContext
 from jinja2.optimizer import optimize
-from jinja2.compiler import generate
-from jinja2.runtime import Undefined, new_context
+from jinja2.compiler import generate, CodeGenerator
+from jinja2.runtime import Undefined, new_context, Context
 from jinja2.exceptions import TemplateSyntaxError, TemplateNotFound, \
      TemplatesNotFound, TemplateRuntimeError
 from jinja2.utils import import_string, LRUCache, Markup, missing, \
@@ -136,7 +136,7 @@ class Environment(object):
 
         `line_comment_prefix`
             If given and a string, this will be used as prefix for line based
-            based comments.  See also :ref:`line-statements`.
+            comments.  See also :ref:`line-statements`.
 
             .. versionadded:: 2.2
 
@@ -237,6 +237,14 @@ class Environment(object):
     #: these are currently EXPERIMENTAL undocumented features.
     exception_handler = None
     exception_formatter = None
+
+    #: the class that is used for code generation.  See
+    #: :class:`~jinja2.compiler.CodeGenerator` for more information.
+    code_generator_class = CodeGenerator
+
+    #: the context class thatis used for templates.  See
+    #: :class:`~jinja2.runtime.Context` for more information.
+    context_class = Context
 
     def __init__(self,
                  block_start_string=BLOCK_START_STRING,
@@ -879,13 +887,12 @@ class Template(object):
     and compatible settings.
 
     >>> template = Template('Hello {{ name }}!')
-    >>> template.render(name='John Doe')
-    u'Hello John Doe!'
-
+    >>> template.render(name='John Doe') == u'Hello John Doe!'
+    True
     >>> stream = template.stream(name='John Doe')
-    >>> stream.next()
-    u'Hello John Doe!'
-    >>> stream.next()
+    >>> next(stream) == u'Hello John Doe!'
+    True
+    >>> next(stream)
     Traceback (most recent call last):
         ...
     StopIteration
@@ -1032,10 +1039,10 @@ class Template(object):
         exported template variables from the Python layer:
 
         >>> t = Template('{% macro foo() %}42{% endmacro %}23')
-        >>> unicode(t.module)
-        u'23'
-        >>> t.module.foo()
-        u'42'
+        >>> str(t.module)
+        '23'
+        >>> t.module.foo() == u'42'
+        True
         """
         if self._module is not None:
             return self._module

@@ -23,10 +23,10 @@ Here a small example of a Jinja template::
 Philosophy
 ----------
 
-Application logic is for the controller but don't try to make the life
-for the template designer too hard by giving him too few functionality.
+Application logic is for the controller, but don't make the template designer's
+life difficult by restricting functionality too much.
 
-For more informations visit the new `Jinja2 webpage`_ and `documentation`_.
+For more information visit the new `Jinja2 webpage`_ and `documentation`_.
 
 The `Jinja2 tip`_ is installable via `easy_install` with ``easy_install
 Jinja2==dev``.
@@ -36,3 +36,14 @@ Jinja2==dev``.
 .. _Jinja2 webpage: http://jinja.pocoo.org/
 .. _documentation: http://jinja.pocoo.org/docs/
 .. _Jinja2 tip: http://jinja.pocoo.org/docs/intro/#as-a-python-egg-via-easy-install
+
+Builds
+------
+
++---------------------+------------------------------------------------------------------------------+
+| ``master``          | .. image:: https://travis-ci.org/mitsuhiko/jinja2.svg?branch=master          |
+|                     |     :target: https://travis-ci.org/mitsuhiko/jinja2                          |
++---------------------+------------------------------------------------------------------------------+
+| ``2.7-maintenance`` | .. image:: https://travis-ci.org/mitsuhiko/jinja2.svg?branch=2.7-maintenance |
+|                     |     :target: https://travis-ci.org/mitsuhiko/jinja2                          |
++---------------------+------------------------------------------------------------------------------+
